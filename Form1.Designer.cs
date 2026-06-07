@@ -69,7 +69,7 @@
             progressBar1.Name = "progressBar1";
             progressBar1.Size = new Size(940, 60);
             progressBar1.TabIndex = 1;
-            progressBar1.Click += progressBar1_Click;
+     
             // 
             // panel1
             // 
@@ -101,6 +101,7 @@
             startBruteforceInitial.TabIndex = 4;
             startBruteforceInitial.Text = "Start Brute Force";
             startBruteforceInitial.UseVisualStyleBackColor = true;
+            startBruteforceInitial.Click += startBruteforceInitial_Click;
             // 
             // startBruteforceNext
             // 
@@ -123,6 +124,7 @@
             stopAttemptButton.TabIndex = 6;
             stopAttemptButton.Text = "Stop ";
             stopAttemptButton.UseVisualStyleBackColor = true;
+            stopAttemptButton.Click += stopAttemptButton_Click;
             // 
             // passwordCracked
             // 
@@ -166,7 +168,7 @@
             attemptText.Size = new Size(90, 19);
             attemptText.TabIndex = 4;
             attemptText.Text = "Attempts:";
-            attemptText.Click += attemptText_Click;
+           
             // 
             // label1
             // 
