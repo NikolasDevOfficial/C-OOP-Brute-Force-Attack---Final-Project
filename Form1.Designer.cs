@@ -35,7 +35,6 @@
             panel1 = new Panel();
             hashedPassword = new Label();
             startBruteforceInitial = new Button();
-            startBruteforceNext = new Button();
             stopAttemptButton = new Button();
             passwordCracked = new Label();
             panel2 = new Panel();
@@ -69,7 +68,6 @@
             progressBar1.Name = "progressBar1";
             progressBar1.Size = new Size(940, 60);
             progressBar1.TabIndex = 1;
-     
             // 
             // panel1
             // 
@@ -102,17 +100,6 @@
             startBruteforceInitial.Text = "Start Brute Force";
             startBruteforceInitial.UseVisualStyleBackColor = true;
             startBruteforceInitial.Click += startBruteforceInitial_Click;
-            // 
-            // startBruteforceNext
-            // 
-            startBruteforceNext.Font = new Font("Consolas", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            startBruteforceNext.Location = new Point(136, 389);
-            startBruteforceNext.Margin = new Padding(4);
-            startBruteforceNext.Name = "startBruteforceNext";
-            startBruteforceNext.Size = new Size(252, 80);
-            startBruteforceNext.TabIndex = 5;
-            startBruteforceNext.Text = "Start Brute Force";
-            startBruteforceNext.UseVisualStyleBackColor = true;
             // 
             // stopAttemptButton
             // 
@@ -168,7 +155,6 @@
             attemptText.Size = new Size(90, 19);
             attemptText.TabIndex = 4;
             attemptText.Text = "Attempts:";
-           
             // 
             // label1
             // 
@@ -240,7 +226,6 @@
             Controls.Add(attemptText);
             Controls.Add(panel2);
             Controls.Add(stopAttemptButton);
-            Controls.Add(startBruteforceNext);
             Controls.Add(startBruteforceInitial);
             Controls.Add(panel1);
             Controls.Add(progressBar1);
@@ -266,7 +251,6 @@
         private Panel panel1;
         private Label hashedPassword;
         private Button startBruteforceInitial;
-        private Button startBruteforceNext;
         private Button stopAttemptButton;
         private Label passwordCracked;
         private Panel panel2;

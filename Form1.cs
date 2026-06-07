@@ -4,15 +4,34 @@ namespace CsharpBruteForceFinal
     {
         private BruteForceProgram _bruteForceProgram;
         private DateTime _startTime;
-        //private long _latestAttempts;
-        //private int _latestProgress;
-        //private System.Windows.Forms.Timer _uiTimer;
+        private long _latestAttempts;
+        private int _latestProgress;
+        private System.Windows.Forms.Timer _uiTimer;
         public Form1()
         {
             InitializeComponent();
-        
+
+            _uiTimer = new System.Windows.Forms.Timer();
+            _uiTimer.Interval = 1000; // modify interval if needed, temp fix
+            _uiTimer.Tick += (s, e) =>
+            {
+                progressBar1.Value = Math.Min(_latestProgress, 100);
+                attemptText.Text = $"Attempts: {_latestAttempts:N0}";
+            };
+            _uiTimer.Start();
+
         }
 
+
+        private void progressBar1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void attemptText_Click(object sender, EventArgs e)
+        {
+
+        }
 
         private void generatePassword_Click(object sender, EventArgs e)
         {
@@ -48,78 +67,81 @@ namespace CsharpBruteForceFinal
 
             byte[] hash = PasswordHashSalt.ComputeSHA256Hash(targetPassword);
 
-            string hashedPasswordFinal= BitConverter.ToString(hash).Replace("-", "").ToLowerInvariant();
-  
-            hashedPassword.Text = $"Unhashed: {unhashedPassword}\n Hashed version: {hashedPasswordFinal}";
+            string hashString = BitConverter.ToString(hash).Replace("-", "").ToLowerInvariant();
+            var hashedPasswordFinal = hashString;
+            hashedPassword.Text = $"Unhashed: {unhashedPassword}\nHashed: {hashedPasswordFinal}";
         }
+
+
+
+
         private void startBruteforceInitial_Click(object sender, EventArgs e)
         {
-            // Determine which character set to use based on the selected radio button
             string chars = "";
 
             if (passwordLowercaseSelect.Checked)
-            {
                 chars = "abcdefghijklmnopqrstuvwxyz";
-            }
             else if (passwordLowerUpperSelect.Checked)
-            {
                 chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
-            }
             else if (passwordLowerUpperNumSelect.Checked)
-            {
                 chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-            }
             else if (passwordLowerUpperNumSymbolsSelect.Checked)
-            {
                 chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789~!@#$%^&*()_+=-`";
-            }
             else
             {
-                MessageBox.Show("Please select a password type to begin.");
+                MessageBox.Show("Select a brute force mode first.");
                 return;
             }
 
-      
+
+
+
+
+
+
             string targetHash = hashedPassword.Text.Split('\n')[1].Split(':')[1].Trim();
-
-           
             _bruteForceProgram = new BruteForceProgram(chars, targetHash);
-
-
-            _bruteForceProgram.ProgressTracker.ProgressChanged += OnProgressChanged;
-            _bruteForceProgram.PasswordFound += (foundPassword) =>
+            _bruteForceProgram.ProgressTracker.ProgressChanged += (attempts, progress) =>
+        
             {
-         
-                this.Invoke((MethodInvoker)delegate {
-                    passwordCracked.Text = foundPassword;
+        
+                this.Invoke((MethodInvoker)delegate
+                {
+                    progressBar1.Value = Math.Min(progress, 100);
+                    attemptText.Text = $"Attempts: {attempts:N0}";
                 });
             };
 
+            _bruteForceProgram.PasswordFound += (foundPassword) =>
          
+            {
+                this.Invoke((MethodInvoker)delegate
+                {
+                    passwordCracked.Text = foundPassword;
+                    timeElapsed.Text = $"Time passed since the start: {(DateTime.Now - _startTime).TotalSeconds} seconds";
+                });
+            };
+
             _startTime = DateTime.Now;
+            progressBar1.Value = 0;
+            attemptText.Text = "Attempts: 0";
 
             Task.Run(() =>
             {
                 _bruteForceProgram.StartBruteForce();
             });
         }
-        private void OnProgressChanged(long attempts, int progress)
-        {
-            this.Invoke((MethodInvoker)delegate
-            {
-                progressBar1.Value = Math.Min(progress, 100);
-                attemptText.Text = $"Attempts: {attempts:N0}";
-            });
-        }
+
 
         private void stopAttemptButton_Click(object sender, EventArgs e)
         {
             _bruteForceProgram?.StopBruteForce();
-        }
+        } }
+
+
+
+
+
+
     }
-}
-
-    
-
-
 

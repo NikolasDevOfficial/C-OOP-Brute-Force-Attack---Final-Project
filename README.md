@@ -15,3 +15,6 @@
 # The progress tracker tracks the total number of combinations, the current attempt count, and the progress percentage.
 # I'm currently running into the difficulty of properly implementing the progress bar to properly move along as the attempt numbers increase and get nearer to the max possible combinations.
 # At the present moment it tracks the each attempt at intervals.
+# v0.4 Implemented multi-threading, implementation of max cpu cores -1, and parallel execution, and thread management. The way i impelement multi threading is by using the Parallel.For method with ParallelOptions to execute the brute force attempts across multiple threads at the same time.
+# While each thread processes different operations for shared variables. The system detects how many available cpu cores there are by using the Environment.PorocessorCount and limits the number of threads to the task requirement of CPU Cores -1 by using the
+# MaxDegreeOfParallelism property, and falling back to a single thread completion. When the password is found or in the case the user click the button Stop, all running threads are immediately terminated by using CancellationTokenSource.
