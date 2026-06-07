@@ -5,6 +5,18 @@ namespace CsharpBruteForceFinal
         public Form1()
         {
             InitializeComponent();
+           
+
+        }
+
+        private void progressBar1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void attemptText_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
