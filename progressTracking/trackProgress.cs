@@ -1,4 +1,5 @@
 using System;
+using System.Threading;
 
 namespace CsharpBruteForceFinal
 {
@@ -17,9 +18,12 @@ namespace CsharpBruteForceFinal
             _total = total;
         }
 
+        public long Current => _current;
+
         public void Update()
         {
-            _current++;
+  
+            Interlocked.Increment(ref _current);
 
             int percent = (int)((_current * 100) / _total);
             if (percent > 100) percent = 100;

@@ -1,3 +1,5 @@
+using CsharpBruteForceFinal.progressTracking;
+
 namespace CsharpBruteForceFinal
 {
     public partial class Form1 : Form
@@ -7,12 +9,15 @@ namespace CsharpBruteForceFinal
         private long _latestAttempts;
         private int _latestProgress;
         private System.Windows.Forms.Timer _uiTimer;
+        private PerformanceLogger _performanceLogger = new PerformanceLogger();
+        private TextBox _performanceLogTextBox;
+
         public Form1()
         {
             InitializeComponent();
 
             _uiTimer = new System.Windows.Forms.Timer();
-            _uiTimer.Interval = 1000; // modify interval if needed, temp fix
+            _uiTimer.Interval = 1000;
             _uiTimer.Tick += (s, e) =>
             {
                 progressBar1.Value = Math.Min(_latestProgress, 100);
@@ -20,17 +25,21 @@ namespace CsharpBruteForceFinal
             };
             _uiTimer.Start();
 
+            _performanceLogTextBox = performanceLogTextBox;
         }
 
-
-        private void progressBar1_Click(object sender, EventArgs e)
+        private string GetSelectedChars()
         {
+            if (passwordLowercaseSelect.Checked)
+                return "abcdefghijklmnopqrstuvwxyz";
+            else if (passwordLowerUpperSelect.Checked)
+                return "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+            else if (passwordLowerUpperNumSelect.Checked)
+                return "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+            else if (passwordLowerUpperNumSymbolsSelect.Checked)
+                return "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789~!@#$%^&*()_+=-`";
 
-        }
-
-        private void attemptText_Click(object sender, EventArgs e)
-        {
-
+            return "";
         }
 
         private void generatePassword_Click(object sender, EventArgs e)
@@ -38,91 +47,66 @@ namespace CsharpBruteForceFinal
             var generator = new passwordGenerator();
             string password = "";
 
-            generatePassword.Enabled = passwordLowercaseSelect.Checked ||
-                      passwordLowerUpperSelect.Checked ||
-                      passwordLowerUpperNumSelect.Checked ||
-                     passwordLowerUpperNumSymbolsSelect.Checked;
+            generatePassword.Enabled =
+                passwordLowercaseSelect.Checked ||
+                passwordLowerUpperSelect.Checked ||
+                passwordLowerUpperNumSelect.Checked ||
+                passwordLowerUpperNumSymbolsSelect.Checked;
 
             if (passwordLowercaseSelect.Checked)
-            {
                 password = generator.RandomPasswordGeneratorLowercaseOnly();
-            }
             else if (passwordLowerUpperSelect.Checked)
-            {
                 password = generator.RandomPasswordGeneratorLowerUppercase();
-
-            }
             else if (passwordLowerUpperNumSelect.Checked)
-            {
                 password = generator.RandomPasswordGeneratorLowerUpperNumbers();
-
-            }
             else if (passwordLowerUpperNumSymbolsSelect.Checked)
-            {
                 password = generator.RandomPasswordGeneratorLowerUpperNumSymbols();
 
-            }
-            var targetPassword = password;
-            var unhashedPassword = password;
-
-            byte[] hash = PasswordHashSalt.ComputeSHA256Hash(targetPassword);
-
+            byte[] hash = PasswordHashSalt.ComputeSHA256Hash(password);
             string hashString = BitConverter.ToString(hash).Replace("-", "").ToLowerInvariant();
-            var hashedPasswordFinal = hashString;
-            hashedPassword.Text = $"Unhashed: {unhashedPassword}\nHashed: {hashedPasswordFinal}";
+
+            hashedPassword.Text =
+                $"Unhashed: {password}\nHashed: {hashString}";
         }
-
-
-
 
         private void startBruteforceInitial_Click(object sender, EventArgs e)
         {
-            string chars = "";
+            string chars = GetSelectedChars();
 
-            if (passwordLowercaseSelect.Checked)
-                chars = "abcdefghijklmnopqrstuvwxyz";
-            else if (passwordLowerUpperSelect.Checked)
-                chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
-            else if (passwordLowerUpperNumSelect.Checked)
-                chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-            else if (passwordLowerUpperNumSymbolsSelect.Checked)
-                chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789~!@#$%^&*()_+=-`";
-            else
+            if (string.IsNullOrEmpty(chars))
             {
                 MessageBox.Show("Select a brute force mode first.");
                 return;
             }
 
-
-
-
-
-
-
             string targetHash = hashedPassword.Text.Split('\n')[1].Split(':')[1].Trim();
+
             _bruteForceProgram = new BruteForceProgram(chars, targetHash);
+
             _bruteForceProgram.ProgressTracker.ProgressChanged += (attempts, progress) =>
-        
             {
-        
                 this.Invoke((MethodInvoker)delegate
                 {
+                    _latestAttempts = attempts;
+                    _latestProgress = progress;
+
                     progressBar1.Value = Math.Min(progress, 100);
                     attemptText.Text = $"Attempts: {attempts:N0}";
                 });
             };
 
             _bruteForceProgram.PasswordFound += (foundPassword) =>
-         
             {
                 this.Invoke((MethodInvoker)delegate
                 {
                     passwordCracked.Text = foundPassword;
-                    timeElapsed.Text = $"Time passed since the start: {(DateTime.Now - _startTime).TotalSeconds} seconds";
+                    timeElapsed.Text =
+                        $"Time passed: {(DateTime.Now - _startTime).TotalSeconds} seconds";
                 });
             };
 
             _startTime = DateTime.Now;
+
             progressBar1.Value = 0;
             attemptText.Text = "Attempts: 0";
 
@@ -132,16 +116,32 @@ namespace CsharpBruteForceFinal
             });
         }
 
-
-        private void stopAttemptButton_Click(object sender, EventArgs e)
+        private void RunPerformanceTest()
         {
-            _bruteForceProgram?.StopBruteForce();
-        } }
+            string chars = GetSelectedChars();
+            string targetHash = hashedPassword.Text.Split('\n')[1].Split(':')[1].Trim();
 
+            var singleThreadProgram = new BruteForceProgram(chars, targetHash);
 
+            long singleAttempts = 0;
 
+            _performanceLogger.LogPerformance("Single-thread", singleAttempts, () =>
+            {
+                singleThreadProgram.StartBruteForceSingleThread();
+                singleAttempts = singleThreadProgram.ProgressTracker.Current;
+            });
 
+            var multiThreadProgram = new BruteForceProgram(chars, targetHash);
 
+            long multiAttempts = 0;
 
+            _performanceLogger.LogPerformance("Multi-thread", multiAttempts, () =>
+            {
+                multiThreadProgram.StartBruteForce();
+                multiAttempts = multiThreadProgram.ProgressTracker.Current;
+            });
+
+            _performanceLogger.DisplayResults(_performanceLogTextBox);
+        }
     }
-
+}

@@ -45,6 +45,8 @@
             passwordLowerUpperSelect = new RadioButton();
             passwordLowerUpperNumSelect = new RadioButton();
             passwordLowerUpperNumSymbolsSelect = new RadioButton();
+            performanceTestButton = new Button();
+            performanceLogTextBox = new TextBox();
             panel1.SuspendLayout();
             panel2.SuspendLayout();
             SuspendLayout();
@@ -212,12 +214,31 @@
             passwordLowerUpperNumSymbolsSelect.Text = "Lowercase, Uppercase, Numbers, Symbols";
             passwordLowerUpperNumSymbolsSelect.UseVisualStyleBackColor = true;
             // 
+            // performanceTestButton
+            // 
+            performanceTestButton.Location = new Point(841, 60);
+            performanceTestButton.Name = "performanceTestButton";
+            performanceTestButton.Size = new Size(145, 24);
+            performanceTestButton.TabIndex = 11;
+            performanceTestButton.Text = "Performance";
+            performanceTestButton.UseVisualStyleBackColor = true;
+            // 
+            // performanceLogTextBox
+            // 
+            performanceLogTextBox.Location = new Point(846, 145);
+            performanceLogTextBox.Name = "performanceLogTextBox";
+            performanceLogTextBox.Size = new Size(140, 26);
+            performanceLogTextBox.TabIndex = 12;
+            performanceLogTextBox.Text = "Performance Log";
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(9F, 19F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ActiveCaptionText;
             ClientSize = new Size(1029, 570);
+            Controls.Add(performanceLogTextBox);
+            Controls.Add(performanceTestButton);
             Controls.Add(passwordLowerUpperNumSymbolsSelect);
             Controls.Add(passwordLowerUpperNumSelect);
             Controls.Add(passwordLowerUpperSelect);
@@ -261,5 +282,7 @@
         private RadioButton passwordLowerUpperSelect;
         private RadioButton passwordLowerUpperNumSelect;
         private RadioButton passwordLowerUpperNumSymbolsSelect;
+        private Button performanceTestButton;
+        private TextBox performanceLogTextBox;
     }
 }
