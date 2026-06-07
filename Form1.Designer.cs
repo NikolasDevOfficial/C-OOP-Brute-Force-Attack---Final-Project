@@ -42,6 +42,10 @@
             timeElapsed = new Label();
             attemptText = new Label();
             label1 = new Label();
+            passwordLowercaseSelect = new RadioButton();
+            passwordLowerUpperSelect = new RadioButton();
+            passwordLowerUpperNumSelect = new RadioButton();
+            passwordLowerUpperNumSymbolsSelect = new RadioButton();
             panel1.SuspendLayout();
             panel2.SuspendLayout();
             SuspendLayout();
@@ -56,6 +60,7 @@
             generatePassword.TabIndex = 0;
             generatePassword.Text = "Create Password";
             generatePassword.UseVisualStyleBackColor = true;
+            generatePassword.Click += generatePassword_Click;
             // 
             // progressBar1
             // 
@@ -89,7 +94,7 @@
             // startBruteforceInitial
             // 
             startBruteforceInitial.Font = new Font("Consolas", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            startBruteforceInitial.Location = new Point(368, 389);
+            startBruteforceInitial.Location = new Point(586, 492);
             startBruteforceInitial.Margin = new Padding(4);
             startBruteforceInitial.Name = "startBruteforceInitial";
             startBruteforceInitial.Size = new Size(292, 65);
@@ -100,7 +105,7 @@
             // startBruteforceNext
             // 
             startBruteforceNext.Font = new Font("Consolas", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            startBruteforceNext.Location = new Point(80, 389);
+            startBruteforceNext.Location = new Point(136, 389);
             startBruteforceNext.Margin = new Padding(4);
             startBruteforceNext.Name = "startBruteforceNext";
             startBruteforceNext.Size = new Size(252, 80);
@@ -111,7 +116,7 @@
             // stopAttemptButton
             // 
             stopAttemptButton.Font = new Font("Consolas", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            stopAttemptButton.Location = new Point(703, 389);
+            stopAttemptButton.Location = new Point(626, 389);
             stopAttemptButton.Margin = new Padding(4);
             stopAttemptButton.Name = "stopAttemptButton";
             stopAttemptButton.Size = new Size(252, 80);
@@ -175,12 +180,60 @@
             label1.TabIndex = 4;
             label1.Text = "Brute Force Simulator";
             // 
+            // passwordLowercaseSelect
+            // 
+            passwordLowercaseSelect.AutoSize = true;
+            passwordLowercaseSelect.Location = new Point(80, 379);
+            passwordLowercaseSelect.Name = "passwordLowercaseSelect";
+            passwordLowercaseSelect.Size = new Size(180, 23);
+            passwordLowercaseSelect.TabIndex = 7;
+            passwordLowercaseSelect.TabStop = true;
+            passwordLowercaseSelect.Text = "Lowercase letters";
+            passwordLowercaseSelect.UseVisualStyleBackColor = true;
+            // 
+            // passwordLowerUpperSelect
+            // 
+            passwordLowerUpperSelect.AutoSize = true;
+            passwordLowerUpperSelect.Location = new Point(80, 408);
+            passwordLowerUpperSelect.Name = "passwordLowerUpperSelect";
+            passwordLowerUpperSelect.Size = new Size(279, 23);
+            passwordLowerUpperSelect.TabIndex = 8;
+            passwordLowerUpperSelect.TabStop = true;
+            passwordLowerUpperSelect.Text = "Lowercase, Uppercase letters";
+            passwordLowerUpperSelect.UseVisualStyleBackColor = true;
+            // 
+            // passwordLowerUpperNumSelect
+            // 
+            passwordLowerUpperNumSelect.AutoSize = true;
+            passwordLowerUpperNumSelect.Location = new Point(80, 437);
+            passwordLowerUpperNumSelect.Name = "passwordLowerUpperNumSelect";
+            passwordLowerUpperNumSelect.Size = new Size(288, 23);
+            passwordLowerUpperNumSelect.TabIndex = 9;
+            passwordLowerUpperNumSelect.TabStop = true;
+            passwordLowerUpperNumSelect.Text = "Lowercase, Uppercase, Numbers";
+            passwordLowerUpperNumSelect.UseVisualStyleBackColor = true;
+            // 
+            // passwordLowerUpperNumSymbolsSelect
+            // 
+            passwordLowerUpperNumSymbolsSelect.AutoSize = true;
+            passwordLowerUpperNumSymbolsSelect.Location = new Point(80, 466);
+            passwordLowerUpperNumSymbolsSelect.Name = "passwordLowerUpperNumSymbolsSelect";
+            passwordLowerUpperNumSymbolsSelect.Size = new Size(369, 23);
+            passwordLowerUpperNumSymbolsSelect.TabIndex = 10;
+            passwordLowerUpperNumSymbolsSelect.TabStop = true;
+            passwordLowerUpperNumSymbolsSelect.Text = "Lowercase, Uppercase, Numbers, Symbols";
+            passwordLowerUpperNumSymbolsSelect.UseVisualStyleBackColor = true;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(9F, 19F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ActiveCaptionText;
             ClientSize = new Size(1029, 570);
+            Controls.Add(passwordLowerUpperNumSymbolsSelect);
+            Controls.Add(passwordLowerUpperNumSelect);
+            Controls.Add(passwordLowerUpperSelect);
+            Controls.Add(passwordLowercaseSelect);
             Controls.Add(label1);
             Controls.Add(attemptText);
             Controls.Add(panel2);
@@ -218,5 +271,9 @@
         private Label timeElapsed;
         private Label attemptText;
         private Label label1;
+        private RadioButton passwordLowercaseSelect;
+        private RadioButton passwordLowerUpperSelect;
+        private RadioButton passwordLowerUpperNumSelect;
+        private RadioButton passwordLowerUpperNumSymbolsSelect;
     }
 }
