@@ -30,3 +30,5 @@
 # Redid the performance logger, and used a Label instead of TextBox to prevent potential issues that may have been caused as a result of it. Corrected display for results, and added password output for both methods for validating comparison to the originally created password.
 # Fixed cancellation issue by properly instantiating a new CancellationTokenSource for each run. Fixed restart by adding proper reset of session state for new tests.
 # Added a state stop and  CancellationTokenSource cancel to make sure that all threads are force stopped instead of waiting on loops to finish.
+# V 0.7 - Through Environment.ProcessorCount and the mathMax method, an additional label was created on the form to display the core and thread count being utilized.
+          

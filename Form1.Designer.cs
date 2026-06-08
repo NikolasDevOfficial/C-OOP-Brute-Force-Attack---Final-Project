@@ -47,6 +47,7 @@
             passwordLowerUpperNumSymbolsSelect = new RadioButton();
             performanceTestButton = new Button();
             performanceLogLabel = new Label();
+            coreThreadInformationLabel = new Label();
             SuspendLayout();
             // 
             // generatePassword
@@ -227,12 +228,22 @@
             performanceLogLabel.TabIndex = 0;
             performanceLogLabel.Text = "Performance";
             // 
+            // coreThreadInformationLabel
+            // 
+            coreThreadInformationLabel.AutoSize = true;
+            coreThreadInformationLabel.Location = new Point(1196, 38);
+            coreThreadInformationLabel.Name = "coreThreadInformationLabel";
+            coreThreadInformationLabel.Size = new Size(216, 50);
+            coreThreadInformationLabel.TabIndex = 12;
+            coreThreadInformationLabel.Text = "Core Thread Information";
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(9F, 19F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ActiveCaptionText;
             ClientSize = new Size(1447, 857);
+            Controls.Add(coreThreadInformationLabel);
             Controls.Add(hashedPassword);
             Controls.Add(timeElapsed);
             Controls.Add(performanceLogLabel);
@@ -279,5 +290,6 @@
         private RadioButton passwordLowerUpperNumSymbolsSelect;
         private Button performanceTestButton;
         private Label performanceLogLabel;
+        private Label coreThreadInformationLabel;
     }
 }

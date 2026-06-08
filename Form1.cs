@@ -88,6 +88,11 @@ namespace CsharpBruteForceFinal
 
             _bruteForceProgram = new BruteForceProgram(chars, targetPassword);
 
+            int cores = Environment.ProcessorCount;
+            int threads = Math.Max(1, cores - 1);
+
+            coreThreadInformationLabel.Text = $"Cores: {cores} \nThreads used: {threads}";
+
             _bruteForceProgram.ProgressTracker.ProgressChanged += (attempts, progress) =>
             {
                 this.Invoke((MethodInvoker)delegate
