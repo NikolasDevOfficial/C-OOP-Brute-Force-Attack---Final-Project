@@ -8,6 +8,7 @@ namespace CsharpBruteForceFinal
         private long _total;
         private long _current;
 
+ 
         private int _lastPercentSent = -1;
         private long _lastSentCount = 0;
 

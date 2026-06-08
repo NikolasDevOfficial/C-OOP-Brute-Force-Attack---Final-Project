@@ -1,4 +1,6 @@
 using CsharpBruteForceFinal.progressTracking;
+using System.Diagnostics;
+using System.Linq;
 
 namespace CsharpBruteForceFinal
 {
@@ -10,8 +12,8 @@ namespace CsharpBruteForceFinal
         private int _latestProgress;
         private System.Windows.Forms.Timer _uiTimer;
         private PerformanceLogger _performanceLogger = new PerformanceLogger();
-        private TextBox _performanceLogTextBox;
 
+    
         public Form1()
         {
             InitializeComponent();
@@ -25,7 +27,7 @@ namespace CsharpBruteForceFinal
             };
             _uiTimer.Start();
 
-            _performanceLogTextBox = performanceLogTextBox;
+          
         }
 
         private string GetSelectedChars()
@@ -41,7 +43,10 @@ namespace CsharpBruteForceFinal
 
             return "";
         }
-
+        private void performanceTestButton_Click(object sender, EventArgs e)
+        {
+            RunPerformanceTest();
+        }
         private void generatePassword_Click(object sender, EventArgs e)
         {
             var generator = new passwordGenerator();
@@ -63,10 +68,10 @@ namespace CsharpBruteForceFinal
                 password = generator.RandomPasswordGeneratorLowerUpperNumSymbols();
 
             byte[] hash = PasswordHashSalt.ComputeSHA256Hash(password);
-            string hashString = BitConverter.ToString(hash).Replace("-", "").ToLowerInvariant();
+            string hashedPasswordFinal = BitConverter.ToString(hash).Replace("-", "").ToLowerInvariant();
 
-            hashedPassword.Text =
-                $"Unhashed: {password}\nHashed: {hashString}";
+            
+            hashedPassword.Text = $"Unhashed: {password}\nHashed: {hashedPasswordFinal}";
         }
 
         private void startBruteforceInitial_Click(object sender, EventArgs e)
@@ -79,9 +84,9 @@ namespace CsharpBruteForceFinal
                 return;
             }
 
-            string targetHash = hashedPassword.Text.Split('\n')[1].Split(':')[1].Trim();
+            string targetPassword = hashedPassword.Text.Split('\n')[1].Split(':')[1].Trim();
 
-            _bruteForceProgram = new BruteForceProgram(chars, targetHash);
+            _bruteForceProgram = new BruteForceProgram(chars, targetPassword);
 
             _bruteForceProgram.ProgressTracker.ProgressChanged += (attempts, progress) =>
             {
@@ -116,32 +121,84 @@ namespace CsharpBruteForceFinal
             });
         }
 
-        private void RunPerformanceTest()
+        private async void RunPerformanceTest()
         {
             string chars = GetSelectedChars();
-            string targetHash = hashedPassword.Text.Split('\n')[1].Split(':')[1].Trim();
 
-            var singleThreadProgram = new BruteForceProgram(chars, targetHash);
-
-            long singleAttempts = 0;
-
-            _performanceLogger.LogPerformance("Single-thread", singleAttempts, () =>
+            string[] parts = hashedPassword.Text.Split('\n');
+            if (parts.Length < 2)
             {
-                singleThreadProgram.StartBruteForceSingleThread();
-                singleAttempts = singleThreadProgram.ProgressTracker.Current;
-            });
+                MessageBox.Show("Generate a password first!");
+                return;
+            }
 
-            var multiThreadProgram = new BruteForceProgram(chars, targetHash);
+            string targetPassword = parts[1].Split(':')[1].Trim();
 
-            long multiAttempts = 0;
+        
+            _performanceLogger = new PerformanceLogger();
 
-            _performanceLogger.LogPerformance("Multi-thread", multiAttempts, () =>
+     
+            var originalText = startBruteforceInitial.Text;
+            startBruteforceInitial.Enabled = false;
+            startBruteforceInitial.Text = "Running tests...";
+            performanceTestButton.Enabled = false;
+
+            try
             {
-                multiThreadProgram.StartBruteForce();
-                multiAttempts = multiThreadProgram.ProgressTracker.Current;
-            });
+                await Task.Run(() =>
+                {
+                
+                    var single = new BruteForceProgram(chars, targetPassword);
+                    string singleResult = null;
 
-            _performanceLogger.DisplayResults(_performanceLogTextBox);
+                    _performanceLogger.LogPerformance(
+                        "Single-thread",
+                        () => singleResult = single.StartBruteForceSingleThread(),
+                        () => single.GetAttempts(),
+                        () => singleResult ?? "Not found"
+                    );
+
+                    var multi = new BruteForceProgram(chars, targetPassword);
+                  
+                    string multiResult = null;
+
+                    _performanceLogger.LogPerformance(
+                        "Multi-thread",
+                        () => multiResult = multi.StartBruteForce(),
+                        () => multi.GetAttempts(),
+                        () => multiResult ?? "Not found"
+                    );
+                });
+            }
+            finally
+            {
+         
+                this.Invoke(() =>
+                {
+                    startBruteforceInitial.Enabled = true;
+                    startBruteforceInitial.Text = originalText;
+                    performanceTestButton.Enabled = true;
+                    _performanceLogger.DisplayResults(performanceLogLabel);
+                });
+            }
         }
+
+        private void stopAttemptButton_Click(object sender, EventArgs e) 
+        {
+            //use just in case
+            Debug.WriteLine("DEBUG Stop clicked clicked");
+            if (_bruteForceProgram != null)
+            {
+                _bruteForceProgram.StopBruteForce();
+                Debug.WriteLine("Stop command sent");
+            }
+            else
+            {
+                Debug.WriteLine("Brute force program is null");
+            }
+        }
+
+
+
     }
 }

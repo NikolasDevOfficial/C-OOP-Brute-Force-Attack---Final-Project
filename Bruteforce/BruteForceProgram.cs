@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -43,6 +44,8 @@ namespace CsharpBruteForceFinal
             int numThreads = Environment.ProcessorCount - 1;
             if (numThreads < 1) numThreads = 1;
 
+            Debug.WriteLine($"Starting brute force with {numThreads} threads");
+
             try
             {
                 Parallel.For(1, 7, new ParallelOptions
@@ -51,37 +54,44 @@ namespace CsharpBruteForceFinal
                     CancellationToken = _cancellationTokenSource.Token
                 }, (length, state) =>
                 {
+                    Debug.WriteLine($"Thread processing length {length}");
+
                     foreach (var combination in _combinationsGenerator.GenerateCombinations(length))
                     {
+                      
                         if (_cancellationTokenSource.Token.IsCancellationRequested)
                         {
+                            Debug.WriteLine($"Cancellation was detected > {length}");
                             state.Stop();
                             return;
                         }
 
                         if (_validator.ValidateCombination(combination))
                         {
+                            Debug.WriteLine($"Password found: {combination}");
                             Interlocked.CompareExchange(ref _foundPassword, combination, null);
-
                             PasswordFound?.Invoke(combination);
-
                             _cancellationTokenSource.Cancel();
                             state.Stop();
                             return;
                         }
 
-                        // safe even in multithread
                         _progressTracker.Update();
                     }
                 });
             }
             catch (OperationCanceledException)
             {
+                Debug.WriteLine("Brute force has been canceled");
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Error: {ex.Message}");
             }
 
+            Debug.WriteLine("Brute force has completed");
             return _foundPassword;
         }
-
         public string StartBruteForceSingleThread()
         {
             Reset();
@@ -106,7 +116,6 @@ namespace CsharpBruteForceFinal
 
             return _foundPassword;
         }
-
      
         public long GetAttempts()
         {
@@ -115,7 +124,16 @@ namespace CsharpBruteForceFinal
 
         public void StopBruteForce()
         {
-            _cancellationTokenSource?.Cancel();
+            Debug.WriteLine("StopBruteForce was called");
+            if (_cancellationTokenSource != null)
+            {
+                _cancellationTokenSource.Cancel();
+                Debug.WriteLine("Cancellation was requested");
+            }
+            else
+            {
+                Debug.WriteLine("Cancellation is null");
+            }
         }
     }
 }

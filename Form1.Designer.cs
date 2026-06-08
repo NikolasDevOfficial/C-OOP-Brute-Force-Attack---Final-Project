@@ -46,18 +46,16 @@
             passwordLowerUpperNumSelect = new RadioButton();
             passwordLowerUpperNumSymbolsSelect = new RadioButton();
             performanceTestButton = new Button();
-            performanceLogTextBox = new TextBox();
-            panel1.SuspendLayout();
-            panel2.SuspendLayout();
+            performanceLogLabel = new Label();
             SuspendLayout();
             // 
             // generatePassword
             // 
             generatePassword.Font = new Font("Consolas", 11.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            generatePassword.Location = new Point(454, 389);
+            generatePassword.Location = new Point(574, 571);
             generatePassword.Margin = new Padding(4);
             generatePassword.Name = "generatePassword";
-            generatePassword.Size = new Size(113, 100);
+            generatePassword.Size = new Size(298, 65);
             generatePassword.TabIndex = 0;
             generatePassword.Text = "Create Password";
             generatePassword.UseVisualStyleBackColor = true;
@@ -65,7 +63,7 @@
             // 
             // progressBar1
             // 
-            progressBar1.Location = new Point(46, 275);
+            progressBar1.Location = new Point(245, 461);
             progressBar1.Margin = new Padding(4);
             progressBar1.Name = "progressBar1";
             progressBar1.Size = new Size(940, 60);
@@ -73,8 +71,7 @@
             // 
             // panel1
             // 
-            panel1.Controls.Add(hashedPassword);
-            panel1.Location = new Point(222, 60);
+            panel1.Location = new Point(453, 192);
             panel1.Margin = new Padding(4);
             panel1.Name = "panel1";
             panel1.Size = new Size(575, 68);
@@ -84,7 +81,7 @@
             // 
             hashedPassword.AutoSize = true;
             hashedPassword.Font = new Font("Consolas", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            hashedPassword.Location = new Point(243, 24);
+            hashedPassword.Location = new Point(692, 209);
             hashedPassword.Margin = new Padding(4, 0, 4, 0);
             hashedPassword.Name = "hashedPassword";
             hashedPassword.Size = new Size(105, 14);
@@ -94,7 +91,7 @@
             // startBruteforceInitial
             // 
             startBruteforceInitial.Font = new Font("Consolas", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            startBruteforceInitial.Location = new Point(586, 492);
+            startBruteforceInitial.Location = new Point(923, 571);
             startBruteforceInitial.Margin = new Padding(4);
             startBruteforceInitial.Name = "startBruteforceInitial";
             startBruteforceInitial.Size = new Size(292, 65);
@@ -106,10 +103,10 @@
             // stopAttemptButton
             // 
             stopAttemptButton.Font = new Font("Consolas", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            stopAttemptButton.Location = new Point(626, 389);
+            stopAttemptButton.Location = new Point(923, 661);
             stopAttemptButton.Margin = new Padding(4);
             stopAttemptButton.Name = "stopAttemptButton";
-            stopAttemptButton.Size = new Size(252, 80);
+            stopAttemptButton.Size = new Size(292, 80);
             stopAttemptButton.TabIndex = 6;
             stopAttemptButton.Text = "Stop ";
             stopAttemptButton.UseVisualStyleBackColor = true;
@@ -119,7 +116,7 @@
             // 
             passwordCracked.AutoSize = true;
             passwordCracked.Font = new Font("Consolas", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            passwordCracked.Location = new Point(222, 17);
+            passwordCracked.Location = new Point(672, 372);
             passwordCracked.Margin = new Padding(4, 0, 4, 0);
             passwordCracked.Name = "passwordCracked";
             passwordCracked.Size = new Size(150, 22);
@@ -128,9 +125,7 @@
             // 
             // panel2
             // 
-            panel2.Controls.Add(timeElapsed);
-            panel2.Controls.Add(passwordCracked);
-            panel2.Location = new Point(222, 199);
+            panel2.Location = new Point(453, 356);
             panel2.Margin = new Padding(4);
             panel2.Name = "panel2";
             panel2.Size = new Size(575, 68);
@@ -140,7 +135,7 @@
             // 
             timeElapsed.AutoSize = true;
             timeElapsed.Font = new Font("Consolas", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            timeElapsed.Location = new Point(219, 39);
+            timeElapsed.Location = new Point(669, 428);
             timeElapsed.Margin = new Padding(4, 0, 4, 0);
             timeElapsed.Name = "timeElapsed";
             timeElapsed.Size = new Size(153, 19);
@@ -151,7 +146,7 @@
             // 
             attemptText.AutoSize = true;
             attemptText.Font = new Font("Consolas", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            attemptText.Location = new Point(480, 351);
+            attemptText.Location = new Point(574, 525);
             attemptText.Margin = new Padding(4, 0, 4, 0);
             attemptText.Name = "attemptText";
             attemptText.Size = new Size(90, 19);
@@ -163,7 +158,7 @@
             label1.AutoSize = true;
             label1.Font = new Font("Consolas", 24F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label1.ForeColor = Color.LimeGreen;
-            label1.Location = new Point(317, 9);
+            label1.Location = new Point(542, 20);
             label1.Margin = new Padding(4, 0, 4, 0);
             label1.Name = "label1";
             label1.Size = new Size(395, 37);
@@ -173,7 +168,7 @@
             // passwordLowercaseSelect
             // 
             passwordLowercaseSelect.AutoSize = true;
-            passwordLowercaseSelect.Location = new Point(80, 379);
+            passwordLowercaseSelect.Location = new Point(245, 571);
             passwordLowercaseSelect.Name = "passwordLowercaseSelect";
             passwordLowercaseSelect.Size = new Size(180, 23);
             passwordLowercaseSelect.TabIndex = 7;
@@ -184,7 +179,7 @@
             // passwordLowerUpperSelect
             // 
             passwordLowerUpperSelect.AutoSize = true;
-            passwordLowerUpperSelect.Location = new Point(80, 408);
+            passwordLowerUpperSelect.Location = new Point(245, 600);
             passwordLowerUpperSelect.Name = "passwordLowerUpperSelect";
             passwordLowerUpperSelect.Size = new Size(279, 23);
             passwordLowerUpperSelect.TabIndex = 8;
@@ -195,7 +190,7 @@
             // passwordLowerUpperNumSelect
             // 
             passwordLowerUpperNumSelect.AutoSize = true;
-            passwordLowerUpperNumSelect.Location = new Point(80, 437);
+            passwordLowerUpperNumSelect.Location = new Point(245, 629);
             passwordLowerUpperNumSelect.Name = "passwordLowerUpperNumSelect";
             passwordLowerUpperNumSelect.Size = new Size(288, 23);
             passwordLowerUpperNumSelect.TabIndex = 9;
@@ -206,7 +201,7 @@
             // passwordLowerUpperNumSymbolsSelect
             // 
             passwordLowerUpperNumSymbolsSelect.AutoSize = true;
-            passwordLowerUpperNumSymbolsSelect.Location = new Point(80, 466);
+            passwordLowerUpperNumSymbolsSelect.Location = new Point(245, 658);
             passwordLowerUpperNumSymbolsSelect.Name = "passwordLowerUpperNumSymbolsSelect";
             passwordLowerUpperNumSymbolsSelect.Size = new Size(369, 23);
             passwordLowerUpperNumSymbolsSelect.TabIndex = 10;
@@ -216,28 +211,32 @@
             // 
             // performanceTestButton
             // 
-            performanceTestButton.Location = new Point(841, 60);
+            performanceTestButton.Location = new Point(1267, 571);
             performanceTestButton.Name = "performanceTestButton";
-            performanceTestButton.Size = new Size(145, 24);
+            performanceTestButton.Size = new Size(145, 33);
             performanceTestButton.TabIndex = 11;
             performanceTestButton.Text = "Performance";
             performanceTestButton.UseVisualStyleBackColor = true;
+            performanceTestButton.Click += performanceTestButton_Click;
             // 
-            // performanceLogTextBox
+            // performanceLogLabel
             // 
-            performanceLogTextBox.Location = new Point(846, 145);
-            performanceLogTextBox.Name = "performanceLogTextBox";
-            performanceLogTextBox.Size = new Size(140, 26);
-            performanceLogTextBox.TabIndex = 12;
-            performanceLogTextBox.Text = "Performance Log";
+            performanceLogLabel.Location = new Point(12, 63);
+            performanceLogLabel.Name = "performanceLogLabel";
+            performanceLogLabel.Size = new Size(385, 384);
+            performanceLogLabel.TabIndex = 0;
+            performanceLogLabel.Text = "Performance";
             // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(9F, 19F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ActiveCaptionText;
-            ClientSize = new Size(1029, 570);
-            Controls.Add(performanceLogTextBox);
+            ClientSize = new Size(1447, 857);
+            Controls.Add(hashedPassword);
+            Controls.Add(timeElapsed);
+            Controls.Add(performanceLogLabel);
+            Controls.Add(passwordCracked);
             Controls.Add(performanceTestButton);
             Controls.Add(passwordLowerUpperNumSymbolsSelect);
             Controls.Add(passwordLowerUpperNumSelect);
@@ -257,10 +256,6 @@
             Margin = new Padding(4);
             Name = "Form1";
             Text = "Brute Force Simulator";
-            panel1.ResumeLayout(false);
-            panel1.PerformLayout();
-            panel2.ResumeLayout(false);
-            panel2.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -283,6 +278,6 @@
         private RadioButton passwordLowerUpperNumSelect;
         private RadioButton passwordLowerUpperNumSymbolsSelect;
         private Button performanceTestButton;
-        private TextBox performanceLogTextBox;
+        private Label performanceLogLabel;
     }
 }
